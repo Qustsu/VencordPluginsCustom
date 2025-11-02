@@ -6,6 +6,7 @@ vencord_installer
 
 .idea
 .DS_Store
+.vs
 
 yarn.lock
 bun.lock
@@ -18,8 +19,6 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 *.tsbuildinfo
-
-src/userplugins
 
 ExtensionCache/
 /settings
