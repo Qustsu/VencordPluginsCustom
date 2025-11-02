@@ -18,6 +18,7 @@
 
 import { Settings } from "@api/Settings";
 import { BackupAndRestoreTab, CloudTab, PatchHelperTab, PluginsTab, ThemesTab, UpdaterTab, VencordTab } from "@components/settings/tabs";
+import RemotePluginsTab from "@components/settings/tabs/RemotePluginsTab";
 import { Devs } from "@utils/constants";
 import { getIntlMessage } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
@@ -125,6 +126,12 @@ export default definePlugin({
                 label: "Backup & Restore",
                 element: BackupAndRestoreTab,
                 className: "vc-backup-restore"
+            },
+            {
+                section: "VencordCustomPlugins",
+                label: "Custom Plugins",
+                element: RemotePluginsTab,
+                className: "vc-custom-plugins"
             },
             IS_DEV && {
                 section: "VencordPatchHelper",

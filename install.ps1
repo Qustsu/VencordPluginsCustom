@@ -1,59 +1,60 @@
-Write-Host "=== Vencord Custom Fork - Установка ===" -ForegroundColor Cyan
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+Write-Host "=== Vencord Custom Fork - Installation ===" -ForegroundColor Cyan
 Write-Host ""
 
-# Проверка Git
-Write-Host "Проверка Git..." -ForegroundColor Yellow
+# Check Git
+Write-Host "Checking Git..." -ForegroundColor Yellow
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
-    Write-Host "У вас не установлен GIT - https://git-scm.com/" -ForegroundColor Red
+    Write-Host "Git is not installed - https://git-scm.com/" -ForegroundColor Red
     exit 1
 }
-Write-Host "Git установлен ✓" -ForegroundColor Green
+Write-Host "Git installed" -ForegroundColor Green
 
-# Проверка pnpm
-Write-Host "Проверка pnpm..." -ForegroundColor Yellow
+# Check pnpm
+Write-Host "Checking pnpm..." -ForegroundColor Yellow
 if (-not (Get-Command pnpm -ErrorAction SilentlyContinue)) {
-    Write-Host "pnpm не найден, устанавливаем..." -ForegroundColor Yellow
+    Write-Host "pnpm not found, installing..." -ForegroundColor Yellow
     npm install -g pnpm
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "Ошибка установки pnpm" -ForegroundColor Red
+        Write-Host "Error installing pnpm" -ForegroundColor Red
         exit 1
     }
 }
-Write-Host "pnpm установлен ✓" -ForegroundColor Green
+Write-Host "pnpm installed" -ForegroundColor Green
 
-# Установка зависимостей
+# Install dependencies
 Write-Host ""
-Write-Host "Установка зависимостей..." -ForegroundColor Yellow
+Write-Host "Installing dependencies..." -ForegroundColor Yellow
 pnpm install
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "Ошибка установки зависимостей" -ForegroundColor Red
+    Write-Host "Error installing dependencies" -ForegroundColor Red
     exit 1
 }
 
-# Сборка
+# Build
 Write-Host ""
-Write-Host "Сборка Vencord..." -ForegroundColor Yellow
+Write-Host "Building Vencord..." -ForegroundColor Yellow
 pnpm build
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "Ошибка сборки" -ForegroundColor Red
+    Write-Host "Build error" -ForegroundColor Red
     exit 1
 }
 
-# Закрытие Discord
+# Close Discord
 Write-Host ""
-Write-Host "Проверка процессов Discord..." -ForegroundColor Yellow
+Write-Host "Checking Discord processes..." -ForegroundColor Yellow
 $discordProcesses = Get-Process | Where-Object { $_.Name -match "Discord" }
 if ($discordProcesses) {
-    Write-Host "Закрытие Discord..." -ForegroundColor Yellow
+    Write-Host "Closing Discord..." -ForegroundColor Yellow
     $discordProcesses | Stop-Process -Force
     Start-Sleep -Seconds 2
-    Write-Host "Discord закрыт ✓" -ForegroundColor Green
+    Write-Host "Discord closed" -ForegroundColor Green
 }
 
-# Инжект
+# Inject
 Write-Host ""
-Write-Host "Запуск инжекта..." -ForegroundColor Yellow
+Write-Host "Running inject..." -ForegroundColor Yellow
 pnpm inject
 
 Write-Host ""
-Write-Host "Установка завершена!" -ForegroundColor Green
+Write-Host "Installation complete!" -ForegroundColor Green
